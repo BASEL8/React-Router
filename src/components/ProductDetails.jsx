@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import ReactHtmlParser from "react-html-parser";
+
 const buttonStyle = {
   border: "1px solid white",
   background: "none",
@@ -7,15 +9,23 @@ const buttonStyle = {
   padding: "10px 6px"
 };
 const ProductDetails = (props) => {
+  const data = props.data;
+  const [editMode, setEditMode] = useState(false);
   return (
     <div>
-      <h3>name : {props.match.params.name}</h3>
-      <h4>price: {props.match.params.price} </h4>
+      {Object.keys(data).map((key, index) => (
+        <div key={index}>
+          {key} :
+          {key === "description" ? ReactHtmlParser(data[key]) : data[key]}
+        </div>
+      ))}
+
       <button
         style={buttonStyle}
-        onClick={() => props.history.push("/products")}
+        // onClick={() => props.history.push("/products")}
+        onClick={() => setEditMode(!editMode)}
       >
-        buy
+        edit
       </button>
     </div>
   );
